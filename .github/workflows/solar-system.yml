@@ -19,7 +19,14 @@ jobs:
     Unit-testing:
 
         name: Unit testing
-        runs-on: ubuntu-latest
+        strategy:
+             matrix:
+                  nodejs_version: [18,19,20]
+                  os: [ubuntu-latest, macos-latest]
+                  exclude:
+                     - nodejs_version: 18
+                       os: macos-latest
+        runs-on: ${{ matrix.os }}
         steps:
             - name: checkout Repoistory
               uses: actions/checkout@v4
@@ -27,7 +34,7 @@ jobs:
             - name: Install Node js version 18
               uses: actions/setup-node@v3
               with:
-                node-version: 18
+                node-version: ${{ matrix.nodejs_version }}
 
             - name: Install Dependencies
               run: npm install
@@ -35,11 +42,7 @@ jobs:
             - name: Testing
               run: npm test
 
-            - name: Archive Test result 
-              uses: actions/upload-artifact@v3
-              with: 
-                 name: Mocha-Test-Result
-                 path: test-results.xml
+           
 
 
 
