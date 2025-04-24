@@ -38,8 +38,8 @@ jobs:
             - name: Archive Test result 
               uses: actions/upload-artifact@v3
               with: 
-                 name: Mocha Test Result
-                 path: test-result.xml
+                 name: Mocha-Test-Result
+                 path: test-results.xml
 
 
 
