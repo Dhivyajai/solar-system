@@ -1,1 +1,32 @@
+name: Solar-system
 
+on: 
+    workflow_dispatch:
+
+    push:
+        branches:
+        - main
+        - features
+
+jobs:
+    Unit-testing:
+
+        name: Unit testing
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout Repoistory
+              uses: actions/checkout@v4
+            
+            - name: Install Node js version 18
+              uses: actions/setup-node@v3
+              with:
+                node-version: 18
+
+            - name: Install Dependencies
+              run: npm install
+
+            - name: Testing
+              run: npm test
+
+            
+        
