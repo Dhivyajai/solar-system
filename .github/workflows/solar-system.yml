@@ -17,7 +17,7 @@ env:
 
 jobs:
     Unit-testing:
-      
+
 
         name: Unit testing
         strategy:
@@ -85,6 +85,53 @@ jobs:
                 path: coverage
                 retention-days: 5
 
+    docker:
+       
+       name: Containerisation
+       permissions:
+            packages: write
+       runs-on: ubuntu-latest
+       steps: 
+          - name: Checkout Repo
+            uses: actions/checkout@v4
+           
+          - name: Container Registry Login
+            uses: actions/login-action@v3
+            with:
+                registry: ghcr.io
+                username: ${{ github.repository_owner }}
+                password: ${{ secrets.GITHUB_TOKEN }}
+
+          - name: Container Registry Push
+            uses: actions/build-push-action@v3
+            with:
+                context: .
+                push: false
+                tags: ghcr.io/${{ github.repository_owner }}/solar system:${{ github.sha }}         
+
+          - name: Docker image testing
+            run: |
+                docker images
+                docker run --name solar system -d \
+                -p 3000:3000\
+                -e  MONGO_URI:$MONGO_URI
+                -e  MONGO_USERNAME:$MONGO_USERNAME
+                -e   MONGO_PASSWORD:$MONGO_PASSWORD
+                ghcr.io/${{ github.repository_owner }}/solar system:${{ github.sha }}
+
+
+          - name: Container Registry Push
+            uses: actions/build-push-action@v3
+            with:
+                context: .
+                push: true
+                tags: ghcr.io/${{ github.repository_owner }}/solar system:${{ github.sha }}   
+
+              
+          
+          
+
+      
            
 
 
