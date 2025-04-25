@@ -104,7 +104,9 @@ jobs:
             uses: docker/build-push-action@v3
             with:
                 context: .
-                registry: ghcr.io/:_authToken=${{ secrets.GITHUB_TOKEN }}
+                registry: ghcr.io
+                username: ${{ github.repository_owner }}
+                password: ${{ secrets.GITHUB_TOKEN }}
                 push: true
                 tags: solar-system:${{ github.sha }}         
 
