@@ -38,6 +38,12 @@ jobs:
             name: Mocha-Test-Result
             path: test-results.xml
 
+        - name : Cache NPM dependcies
+          uses: actions/cache@v4
+          with:
+            path: ~./npm
+            key: ${{ runner.os }}-node-modules-${{  hashFiles('package.json') }} 
+
     
     code-coverage:
            
