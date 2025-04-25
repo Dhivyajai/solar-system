@@ -104,6 +104,7 @@ jobs:
             uses: docker/build-push-action@v3
             with:
                 context: .
+                registry: ghcr.io
                 push: false
                 tags: ghcr.io/${{ github.repository_owner }}/solar-system:${{ github.sha }}         
 
