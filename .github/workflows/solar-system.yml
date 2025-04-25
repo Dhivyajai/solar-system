@@ -111,10 +111,8 @@ jobs:
             with:
                 context: .
                 registry: ghcr.io
-                username: ${{ github.repository_owner }}
-                password: ${{ secrets.GITHUB_TOKEN }}
                 push: true
-                tags: ghcr.io/$OWNER/solar-system::${{ github.sha }}      
+                tags: ghcr.io/${{ github.repository_owner }}/solar-system::${{ github.sha }}      
 
         
 
