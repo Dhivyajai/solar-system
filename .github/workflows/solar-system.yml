@@ -106,7 +106,7 @@ jobs:
                 context: .
                 registry: ghcr.io
                 push: false
-                tags: ghcr.io/${{ github.repository_owner }}/solar-system:${{ github.sha }}         
+                tags: solar-system:${{ github.sha }}         
 
           - name: Docker image testing
             run: |
@@ -116,7 +116,7 @@ jobs:
                 -e  MONGO_URI:$MONGO_URI
                 -e  MONGO_USERNAME:$MONGO_USERNAME
                 -e  MONGO_PASSWORD:$MONGO_PASSWORD
-                ghcr.io/${{ github.repository_owner }}/solar-system:${{ github.sha }}
+                solar-system:${{ github.sha }}
 
 
          
