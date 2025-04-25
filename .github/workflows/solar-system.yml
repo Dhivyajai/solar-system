@@ -22,7 +22,7 @@ jobs:
         strategy:
              matrix:
                   nodejs_version: [18,20]
-                  os: [ubuntu-latest]
+                  os: [ubuntu-latest, macos-latest]
                   exclude:
                      - nodejs_version: 18
                        os: macos-latest
@@ -36,17 +36,18 @@ jobs:
               with:
                 node-version: ${{ matrix.nodejs_version }}
 
+            - name: Cache Dependencies
+              uses: actions/cache@v3
+              with:
+                path: node-modules
+                key: ${{ runner.os }}-node-modules-${{  hashFiles('package.json') }}
+
+
             - name: Install Dependencies
               run: npm install
 
             - name: Testing
               run: npm test
-
-            - name: Archive Test result
-              uses: actions/upload-artifact@v4
-              with: 
-                name: Test result
-                path: test-results.xml
 
                 
 
@@ -62,6 +63,12 @@ jobs:
               uses: actions/setup-node@v3
               with:
                 node-version: 18
+
+            - name: Cache Dependencies
+              uses: actions/cache@v3
+              with:
+                path: node-modules
+                key: ${{ runner.os }}-node-modules-${{  hashFiles('package.json') }}    
 
             - name: Install Dependencies
               run: npm install
