@@ -90,11 +90,13 @@ jobs:
                 username: ${{ github.repository_owner }}
                 password: ${{ secrets.GITHUB_TOKEN }}     
 
-          - name: Push image
+          - name: Update repo name
             run: |
                echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
             env:
               OWNER: '${{ github.repository_owner }}' 
+
+          - name: Push image  
             uses: docker/build-push-action@v6
             with: 
               context: .
