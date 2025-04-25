@@ -100,15 +100,21 @@ jobs:
                 username: ${{ github.repository_owner }}
                 password: ${{ secrets.GITHUB_TOKEN }}
 
+          - name: set lower case owner name
+            run: |
+              echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+            env:
+              OWNER: '${{ github.repository_owner }}'     
+
           - name: Container Registry Push
-            uses: docker/build-push-action@v3
+            uses: docker/build-push-action@v6
             with:
                 context: .
                 registry: ghcr.io
                 username: ${{ github.repository_owner }}
                 password: ${{ secrets.GITHUB_TOKEN }}
                 push: true
-                tags: solar-system:${{ github.sha }}         
+                tags: ghcr.io/$OWNER/solar-system::${{ github.sha }}      
 
         
 
