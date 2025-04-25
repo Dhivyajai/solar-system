@@ -90,7 +90,17 @@ jobs:
                 username: ${{ github.repository_owner }}
                 password: ${{ secrets.GITHUB_TOKEN }}
 
+                - name: set lower case owner name
+                run: |
+                  echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+                env:
+                  OWNER: '${{ github.repository_owner }}'      
+
           - name: Push image
+            run: |
+               echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+            env:
+              OWNER: '${{ github.repository_owner }}' 
             uses: docker/build-push-action@v6
             with: 
               context: .
