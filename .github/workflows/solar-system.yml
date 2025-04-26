@@ -107,6 +107,27 @@ jobs:
                 tags: ${{ vars.DOCKER_USERNAME }}/solar-system:${{ github.sha }}  
 
 
+          - name: Docker Image testing
+            run: |
+                 docker images
+                 docker run -d --name solar-system \
+                 -p 3000:3000 \
+                 -e MONGO_URI:$MONGO_URI
+                 -e MONGO_USERNAME:$MONGO_USERNAME
+                 -e MONGO_PASSWORD:$MONGO_PASSWORD
+
+                 echo "Testing Image using wget"
+                 wget -q -o 127.0.0.1:3000/live | grep live 
+                 
+          - name: Docker Registry Push
+            uses: docker/build-push-action@v6
+            with:
+              context: .
+              push: true
+              tags: ${{ vars.DOCKER_USERNAME }}/solar-system:${{ github.sha }}        
+               
+
+
 
         
 
